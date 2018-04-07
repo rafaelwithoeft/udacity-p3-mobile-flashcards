@@ -18,4 +18,4 @@ function decks(state = {}, action) {
     }
 }
 
-export default entries;
+export default decks;
