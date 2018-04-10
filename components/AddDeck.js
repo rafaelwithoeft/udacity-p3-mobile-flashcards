@@ -9,9 +9,9 @@ class AddDeck extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity  style={styles.button}>
-                        <MaterialCommunityIcons name='plus' size={30} />
-                        <Text>Add</Text>
+                <TouchableOpacity style={styles.button}>
+                    <MaterialCommunityIcons name='plus' size={30} color={lightBlue} />
+                    <Text style={styles.text}>Add</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -27,9 +27,13 @@ const styles = StyleSheet.create({
     },
     button: {
         flex: 1,
+        flexDirection: "row",
         alignSelf: "flex-end",
         justifyContent: "center",
-        backgroundColor: darkBlue,
+        alignItems: "center",
+        backgroundColor: darkBlue
+    },
+    text: {
         color: lightBlue
     }
 })

@@ -3,6 +3,9 @@
 # expo
 .expo/
 
+#vscode
+.vscode/
+
 # dependencies
 /node_modules
 
@@ -17,3 +20,4 @@ yarn-debug.log*
 yarn-error.log*
 yarn.lock*
 package-lock.json*
+package.lock*
