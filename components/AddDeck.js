@@ -1,17 +1,52 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, TextInput } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { newDeck } from '../utils/storage';
+
+import { generateRandomKey } from '../utils/helpers';
 import { lightBlue, darkBlue } from '../utils/colors';
 
 class AddDeck extends Component {
+    state = {
+        title: null
+    }
+
+    toHome = () => {
+        this.props.navigation.navigate("ListDeck");
+    }
+
+    handleAddDeck = () => {
+        const key = generateRandomKey();
+        const deck = {
+            title: this.state.title,
+            questions: null
+        };
+
+        this.setState({ title: null });
+        this.toHome();
+
+        //Local storage
+        newDeck({ key, deck });
+        
+        //Add Redux
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.button}>
+                <TextInput
+                    underlineColorAndroid="transparent"
+                    placeholder="New card name"
+                    style={styles.input}
+                    onChangeText={(text) => this.setState({ title: text })}
+                    value={this.state.title}
+                />
+                <TouchableOpacity style={styles.button} onPress={this.handleAddDeck}>
                     <MaterialCommunityIcons name='plus' size={30} color={lightBlue} />
-                    <Text style={styles.text}>Add</Text>
+                    <Text style={styles.text}>ADD</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -25,16 +60,28 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
+    input: {
+        flex: 1,
+        flexWrap: "wrap",
+        marginBottom: 80,
+    },
     button: {
         flex: 1,
+        position: "absolute",
         flexDirection: "row",
-        alignSelf: "flex-end",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: darkBlue
+        right: 0,
+        left: 0,
+        bottom: 0,
+        marginBottom: 10,
+        padding: 5,
+        height: 45,
+        backgroundColor: darkBlue,
     },
     text: {
-        color: lightBlue
+        color: lightBlue,
+        fontSize: 20
     }
 })
 

@@ -3,24 +3,20 @@ import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { AppLoading } from 'expo';
 
-import { darkBlue, lightBlue } from '../utils/colors';
+import { getDecks, getDeck } from '../utils/storage';
 
-const list = [
-    {
-        name: 'Amy Farha',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-        subtitle: 'Vice President'
-    },
-    {
-        name: 'Chris Jackson',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-        subtitle: 'Vice Chairman'
-    },
-];
+import { darkBlue, lightBlue } from '../utils/colors';
 
 class ListDeck extends Component {
     state = {
         contentLoading: true,
+        decks: null
+    }
+
+    componentDidMount() {
+        const decks = getDecks().then(decks => {
+            this.setState({decks});
+        });
     }
 
     render() {
@@ -29,6 +25,10 @@ class ListDeck extends Component {
         return (
             <View style={styles.container}>
                 {contentLoading && <AppLoading />}
+
+                <Text>
+                    {JSON.stringify(this.state.decks)}
+                </Text>
             </View>
         )
     }

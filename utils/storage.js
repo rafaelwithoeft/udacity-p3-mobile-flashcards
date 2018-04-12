@@ -7,7 +7,7 @@ import { STORAGE_KEY } from './constants';
 export function getDecks() {
     return AsyncStorage
         .getItem(STORAGE_KEY)
-        .then(result => JSON.parse(results));
+        .then((results) => { return JSON.parse(results) } ) ;
 }
 
 /**
@@ -16,6 +16,7 @@ export function getDecks() {
  */
 export function getDeck(key) {
     return getDecks().then(decks => {
+        console.log(decks);
         return decks[key];
     });
 }
@@ -25,7 +26,8 @@ export function getDeck(key) {
  * @param {string} key UUID
  * @param {object} deck
  */
-export function addDeck(key, deck) {
+export function newDeck({ key, deck }) {
+    console.log(key, deck);
     return AsyncStorage.mergeItem(
         STORAGE_KEY,
         JSON.stringify({ [key]: deck })
@@ -37,7 +39,7 @@ export function addDeck(key, deck) {
  * @param {string} key 
  * @param {object} question 
  */
-export function addQuestion(key, question) {
+export function newQuestion(key, question) {
     return getDecks().then((decks) => {
 
         if (typeof decks[key] !== typeof undefined) {
