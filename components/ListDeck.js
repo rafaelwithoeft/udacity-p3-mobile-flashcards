@@ -3,8 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { AppLoading } from 'expo';
 
-import { getDecks, getDeck } from '../utils/storage';
+import Deck from './Deck'
 
+import { getDecks, getDeck } from '../utils/storage';
 import { darkBlue, lightBlue } from '../utils/colors';
 
 class ListDeck extends Component {
@@ -14,21 +15,22 @@ class ListDeck extends Component {
     }
 
     componentDidMount() {
-        const decks = getDecks().then(decks => {
-            this.setState({decks});
+        const decks = getDecks().then( (decks) => {
+            this.setState({contentLoading: false, decks});
         });
     }
 
     render() {
-        const { contentLoading } = this.state;
+        const { contentLoading, decks } = this.state;
 
         return (
             <View style={styles.container}>
                 {contentLoading && <AppLoading />}
-
-                <Text>
-                    {JSON.stringify(this.state.decks)}
-                </Text>
+                {
+                    contentLoading === false && 
+                    decks !== null &&
+                    Object.keys(decks).map( keyName => <Deck key={keyName} deck={decks[keyName]} /> )
+                }
             </View>
         )
     }

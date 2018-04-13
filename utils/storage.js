@@ -7,7 +7,8 @@ import { STORAGE_KEY } from './constants';
 export function getDecks() {
     return AsyncStorage
         .getItem(STORAGE_KEY)
-        .then((results) => { return JSON.parse(results) } ) ;
+        .then( results => JSON.parse(results) )
+        .catch(e => console.log('err', e));
 }
 
 /**
