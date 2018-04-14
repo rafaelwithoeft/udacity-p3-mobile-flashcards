@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { newDeck } from '../utils/storage';
@@ -22,6 +21,7 @@ class AddDeck extends Component {
     handleAddDeck = () => {
         const key = generateRandomKey();
         const deck = {
+            key: key,
             title: this.state.title,
             questions: []
         };
@@ -45,13 +45,15 @@ class AddDeck extends Component {
                 <TextInput
                     underlineColorAndroid="transparent"
                     placeholder="New card name"
+                    autoCapitalize="words"
+                    maxLength={40}
                     style={styles.input}
                     onChangeText={(text) => this.setState({ title: text })}
                     value={this.state.title}
                 />
                 <TouchableOpacity style={styles.button} onPress={this.handleAddDeck}>
                     <MaterialCommunityIcons name='plus' size={30} color={lightBlue} />
-                    <Text style={styles.text}>ADD</Text>
+                    <Text style={styles.textButton}>ADD</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -61,14 +63,12 @@ class AddDeck extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: "center"
     },
     input: {
         flex: 1,
-        flexWrap: "wrap",
         marginBottom: 80,
+        height: 50
     },
     button: {
         flex: 1,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         height: 45,
         backgroundColor: darkBlue,
     },
-    text: {
+    textButton: {
         color: lightBlue,
         fontSize: 20
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { darkBlue, lightBlue, grey, white, orange } from '../utils/colors';
 
@@ -11,7 +11,18 @@ export default class Deck extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                    <Text numberOfLines={3} style={styles.titleText}>{deck.title}</Text>    
+                    <TouchableOpacity 
+                        onPress={() => {
+                            this.props.navigation.navigate(
+                                'DetailDeck',
+                                { deck: deck.key }
+                            )
+                        }}
+                    >
+                        <Text numberOfLines={2} style={styles.titleText}>
+                            {deck.title}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.badgeContainer}>
                     <Text style={styles.badgeText}>{countQuestions} Question(s)</Text>
@@ -34,6 +45,7 @@ const styles = StyleSheet.create({
     titleContainer: {
         flex: 1,
         justifyContent: "center",
+        paddingTop: 5
     },
     titleText: {
         fontSize: 18,
@@ -43,7 +55,7 @@ const styles = StyleSheet.create({
     },
     badgeContainer: {
         flex: 1,
-        backgroundColor: darkBlue,
+        backgroundColor: grey,
         justifyContent: "center",
         borderRadius: 4,
         margin: 5,
@@ -53,6 +65,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "bold",
         textAlign: "center",
-        color: white
+        color: darkBlue
     }
 });

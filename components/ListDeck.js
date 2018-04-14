@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { AppLoading } from 'expo';
 
@@ -36,7 +36,11 @@ class ListDeck extends Component {
                 {
                     contentLoading === false && 
                     decks !== null &&
-                    Object.keys(decks).map( keyName => <Deck key={keyName} deck={decks[keyName]} /> )
+                    <FlatList
+                        data={Object.keys(decks)}
+                        keyExtractor={item => item}
+                        renderItem={({ item }) => <Deck key={item} deck={decks[item]} navigation={this.props.navigation} />}
+                    />
                 }
             </View>
         )

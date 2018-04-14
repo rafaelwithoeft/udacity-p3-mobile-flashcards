@@ -8,6 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import ListDeck from './components/ListDeck';
 import AddDeck from './components/AddDeck';
+import DetailDeck from './components/DetailDeck';
 
 import reducer from './reducers';
 import { darkBlue, lightBlue, white } from './utils/colors';
@@ -78,7 +79,12 @@ const Tabs = TabNavigator(
 
 const MainNavigator = StackNavigator(
 	{
-		Home: Tabs
+		Home: {
+			screen: Tabs
+		},
+		DetailDeck: {
+			screen: DetailDeck
+		}
 	},
 );
 
