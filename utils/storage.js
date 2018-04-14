@@ -17,7 +17,6 @@ export function getDecks() {
  */
 export function getDeck(key) {
     return getDecks().then(decks => {
-        console.log(decks);
         return decks[key];
     });
 }
@@ -28,7 +27,6 @@ export function getDeck(key) {
  * @param {object} deck
  */
 export function newDeck({ key, deck }) {
-    console.log(key, deck);
     return AsyncStorage.mergeItem(
         STORAGE_KEY,
         JSON.stringify({ [key]: deck })
@@ -48,4 +46,11 @@ export function newQuestion(key, question) {
         }
         AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(decks));
     });
+}
+
+/**
+ * Clear storage.
+ */
+export function clearStorage() {
+    AsyncStorage.removeItem(STORAGE_KEY);
 }

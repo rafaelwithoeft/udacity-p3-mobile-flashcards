@@ -5,27 +5,34 @@ import { AppLoading } from 'expo';
 
 import Deck from './Deck'
 
-import { getDecks, getDeck } from '../utils/storage';
+import { receiveDecks } from '../actions'
+
+import { getDecks, getDeck, clearStorage } from '../utils/storage';
 import { darkBlue, lightBlue } from '../utils/colors';
 
 class ListDeck extends Component {
     state = {
-        contentLoading: true,
-        decks: null
+        contentLoading: true
     }
 
     componentDidMount() {
-        const decks = getDecks().then( (decks) => {
-            this.setState({contentLoading: false, decks});
-        });
+        const { dispatch } = this.props;
+
+        const decks = getDecks()
+            .then( (decks) => dispatch(receiveDecks(decks)) )
+            .then(() => this.setState(() => ({ contentLoading: false })))
     }
 
     render() {
-        const { contentLoading, decks } = this.state;
+        const { contentLoading } = this.state;
+        const { decks } = this.props;
+
+        if (contentLoading) {
+            return <AppLoading onError={console.warn} />;
+        }
 
         return (
             <View style={styles.container}>
-                {contentLoading && <AppLoading />}
                 {
                     contentLoading === false && 
                     decks !== null &&
@@ -38,9 +45,14 @@ class ListDeck extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        marginTop: 20
+        flex: 1
     }
 });
 
-export default connect()(ListDeck);
+function mapStateToProps(decks) {
+    return {
+        decks
+    }
+}
+
+export default connect(mapStateToProps)(ListDeck);

@@ -5,6 +5,7 @@ import { NavigationActions } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { newDeck } from '../utils/storage';
+import { addDeck } from '../actions';
 
 import { generateRandomKey } from '../utils/helpers';
 import { lightBlue, darkBlue } from '../utils/colors';
@@ -22,16 +23,20 @@ class AddDeck extends Component {
         const key = generateRandomKey();
         const deck = {
             title: this.state.title,
-            questions: null
+            questions: []
         };
 
+        //Redux
+        this.props.dispatch(addDeck({
+            [key]: deck
+        }));
+
+        //Local state
         this.setState({ title: null });
         this.toHome();
 
-        //Local storage
+        //AsyncStorage
         newDeck({ key, deck });
-        
-        //Add Redux
     }
 
     render() {
