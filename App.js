@@ -11,7 +11,7 @@ import AddDeck from './components/AddDeck';
 import DetailDeck from './components/DetailDeck';
 
 import reducer from './reducers';
-import { darkBlue, lightBlue, white } from './utils/colors';
+import { darkBlue, white } from './utils/colors';
 
 function FlashCardStatusBar ({ backgroundColor, ...props }) {
   	return (
@@ -20,23 +20,6 @@ function FlashCardStatusBar ({ backgroundColor, ...props }) {
 		</View>
 	);
 }
-
-const headerOptions = {
-	headerStyle: {
-		height: 25,
-		backgroundColor: darkBlue,
-		borderBottomColor: lightBlue,
-		borderBottomWidth: 2,
-	},
-	headerTintColor: lightBlue,
-	headerTitleStyle: {
-		flex: 1,
-		justifyContent: "space-between",
-		alignItems: "center",
-		textAlign: "center",
-		fontSize: 18,
-	},
-};
 
 const Tabs = TabNavigator(
 	{
@@ -49,19 +32,20 @@ const Tabs = TabNavigator(
 		AddDeck: {
 			screen: AddDeck,
 			navigationOptions: {
-				tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='plus' size={30} color={tintColor} />
+				tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='shape-square-plus' size={30} color={tintColor} />
 			}
 		}
 	},
 	{
 		tabBarPosition: "bottom",
+		headerRight: (<View></View>),
 		navigationOptions: {
 			header: null
 		},
 		tabBarOptions: {
 			showIcon: true,
 			showLabel: false,
-			activeTintColor: lightBlue,
+			activeTintColor: white,
 			style: {
 				height: 45,
 				backgroundColor: darkBlue,
@@ -73,7 +57,7 @@ const Tabs = TabNavigator(
 				shadowRadius: 6,
 				shadowOpacity: 1
 			}
-		}
+		},
 	}
 );
 

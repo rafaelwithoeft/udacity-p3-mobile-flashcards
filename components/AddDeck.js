@@ -7,7 +7,7 @@ import { newDeck } from '../utils/storage';
 import { addDeck } from '../actions';
 
 import { generateRandomKey } from '../utils/helpers';
-import { lightBlue, darkBlue } from '../utils/colors';
+import { grey, white, darkBlue } from '../utils/colors';
 
 class AddDeck extends Component {
     state = {
@@ -42,19 +42,24 @@ class AddDeck extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TextInput
-                    underlineColorAndroid="transparent"
-                    placeholder="New card name"
-                    autoCapitalize="words"
-                    maxLength={40}
-                    style={styles.input}
-                    onChangeText={(text) => this.setState({ title: text })}
-                    value={this.state.title}
-                />
-                <TouchableOpacity style={styles.button} onPress={this.handleAddDeck}>
-                    <MaterialCommunityIcons name='plus' size={30} color={lightBlue} />
-                    <Text style={styles.textButton}>ADD</Text>
-                </TouchableOpacity>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        underlineColorAndroid="transparent"
+                        placeholder="New card name"
+                        autoFocus={true}
+                        autoCapitalize="words"
+                        maxLength={40}
+                        style={styles.inputText}
+                        onChangeText={(text) => this.setState({ title: text })}
+                        value={this.state.title}
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.button} onPress={this.handleAddDeck}>
+                        <MaterialCommunityIcons name='plus' size={22} color={white} />
+                        <Text style={styles.buttonText}>Save</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -63,31 +68,39 @@ class AddDeck extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: "column",
+        margin: 3
+    },
+    inputContainer: {
+        flex: 1,
         justifyContent: "center"
     },
-    input: {
-        flex: 1,
-        marginBottom: 80,
-        height: 50
+    inputText: {
+        fontSize: 35,
+        textAlign: "center",
+        fontWeight: "bold",
+        color: darkBlue
+    },
+    buttonContainer: {
+        flexDirection: "row"
     },
     button: {
         flex: 1,
-        position: "absolute",
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center",
-        right: 0,
-        left: 0,
-        bottom: 0,
-        marginBottom: 10,
-        padding: 5,
-        height: 45,
+        borderWidth: 2,
+        borderRadius: 2,
+        borderColor: grey,
         backgroundColor: darkBlue,
+        padding: 10,
+        marginBottom: 10,
     },
-    textButton: {
-        color: lightBlue,
-        fontSize: 20
+    buttonText: {
+        alignSelf: "center",
+        fontSize: 14,
+        fontWeight: "bold",
+        color: white
     }
-})
+});
 
 export default connect()(AddDeck);

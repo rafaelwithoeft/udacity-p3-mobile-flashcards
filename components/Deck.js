@@ -15,8 +15,8 @@ export default class Deck extends Component {
                         onPress={() => {
                             this.props.navigation.navigate(
                                 'DetailDeck',
-                                { deck: deck.key }
-                            )
+                                { deck: deck }
+                            );
                         }}
                     >
                         <Text numberOfLines={2} style={styles.titleText}>
