@@ -1,6 +1,6 @@
 export const RECEIVE_DECKS = 'RECEIVE_DECKS';
 export const ADD_DECK = 'ADD_DECK';
-export const UPDATE_DECK = 'UPDATE_DECK';
+export const ADD_QUESTION = 'ADD_QUESTION';
 
 /**
  * Receive all decks.
@@ -25,12 +25,14 @@ export function addDeck(deck) {
 }
 
 /**
- * Update deck.
- * @param {object} deck 
+ * 
+ * @param {string} key Deck key
+ * @param {object} question Question object
  */
-export function updateDeck(deck) {
+export function addQuestion({key, question}) {
     return {
-        type: UPDATE_DECK,
-        deck
+        type: ADD_QUESTION,
+        key,
+        question
     }
 }

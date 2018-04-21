@@ -8,6 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import ListDeck from './components/ListDeck';
 import AddDeck from './components/AddDeck';
+import AddQuestion from './components/AddQuestion';
 import DetailDeck from './components/DetailDeck';
 
 import reducer from './reducers';
@@ -68,6 +69,9 @@ const MainNavigator = StackNavigator(
 		},
 		DetailDeck: {
 			screen: DetailDeck
+		},
+		AddQuestion: {
+			screen: AddQuestion
 		}
 	},
 );

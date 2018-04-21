@@ -7,8 +7,6 @@ import { darkBlue, lightBlue, grey, white } from '../utils/colors';
 
 class DetailDeck extends Component {
     static navigationOptions = ({ navigation }) => {
-        const { deck } = navigation.state.params;
-
         return {
             title: "Details of Deck",
             headerStyle: {
@@ -28,8 +26,17 @@ class DetailDeck extends Component {
         }        
     };
 
+    handleAddQuestion = () => {
+        const { deck } = this.props;
+        this.props.navigation.navigate(
+            "AddQuestion",
+            { key: deck.key }
+        );
+    }
+
     render() {
         const { deck } = this.props;
+        const countQuestions = deck.questions !== null ? deck.questions.length : 0;
 
         return (
             <View style={styles.container}>
@@ -38,8 +45,11 @@ class DetailDeck extends Component {
                         {deck.title}
                     </Text>
                 </View>
+                <View style={styles.questionContainer}>
+                    <Text style={styles.questionText}>{countQuestions} Question(s)</Text>
+                </View>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={this.handleAddQuestion}>
                         <MaterialCommunityIcons name="plus" size={22} color={white} />
                         <Text style={styles.buttonText}> Add Question </Text>
                     </TouchableOpacity>
@@ -61,7 +71,8 @@ const styles = StyleSheet.create({
         margin: 3
     },
     titleContainer: {
-        flex: 1
+        flex: 1,
+        justifyContent: "center"
     },
     titleText: {
         fontSize: 35,
@@ -88,13 +99,23 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "bold",
         color: white
+    },
+    questionContainer: {
+        flexDirection: "row",
+        justifyContent: "center"
+    },
+    questionText: {
+        fontSize: 14,
+        fontWeight: "bold",
+        textAlign: "center",
+        color: darkBlue
     }
 });
 
 function mapStateToProps(state, { navigation }) {
-    const { deck } = navigation.state.params;
+    const { key } = navigation.state.params;
     return {
-        deck
+        deck: state[key]
     }
 }
 

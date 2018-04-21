@@ -15,7 +15,7 @@ export default class Deck extends Component {
                         onPress={() => {
                             this.props.navigation.navigate(
                                 'DetailDeck',
-                                { deck: deck }
+                                { key: deck.key }
                             );
                         }}
                     >
@@ -50,6 +50,9 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 18,
         textAlign: "center",
+        textDecorationLine: "underline",
+        textDecorationStyle: "solid",
+        textDecorationColor: "#000",
         fontWeight: "bold",
         color: darkBlue
     },
