@@ -34,13 +34,6 @@ class AddQuestion extends Component {
         answer: null
     }
 
-    // toDeck = () => {
-    //     const { deck } = this.props;
-    //     this.props.navigation.navigate("DetailDeck", {
-    //         key: deck.key
-    //     });
-    // }
-
     handleAddQuestion = () => {
         const { deck } = this.props;
         const question = {
@@ -61,7 +54,7 @@ class AddQuestion extends Component {
         this.setState({ question: null, answer: null });
         
         //AsyncStorage
-        //newDeck({ key, deck });
+        newQuestion({ key: deck.key, question });
     }
 
     render() {

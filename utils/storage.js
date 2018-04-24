@@ -38,7 +38,7 @@ export function newDeck({ key, deck }) {
  * @param {string} key 
  * @param {object} question 
  */
-export function newQuestion(key, question) {
+export function newQuestion({key, question}) {
     return getDecks().then((decks) => {
 
         if (typeof decks[key] !== typeof undefined) {
