@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { View, StatusBar } from 'react-native';
-import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import ListDeck from './components/ListDeck';
 import AddDeck from './components/AddDeck';
 import AddQuestion from './components/AddQuestion';
 import DetailDeck from './components/DetailDeck';
+import ListDeck from './components/ListDeck';
+import Quiz from './components/Quiz';
 
 import reducer from './reducers';
 import { darkBlue, white } from './utils/colors';
@@ -72,6 +73,9 @@ const MainNavigator = StackNavigator(
 		},
 		AddQuestion: {
 			screen: AddQuestion
+		},
+		Quiz: {
+			screen: Quiz
 		}
 	},
 );

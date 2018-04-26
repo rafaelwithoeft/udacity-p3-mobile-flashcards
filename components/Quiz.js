@@ -5,10 +5,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { darkBlue, lightBlue, grey, white } from '../utils/colors';
 
-class DetailDeck extends Component {
+class Quiz extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
-            title: "Details of Deck",
+            title: "Quiz",
             headerStyle: {
                 height: 30,
                 backgroundColor: darkBlue,
@@ -26,28 +26,25 @@ class DetailDeck extends Component {
         }        
     };
 
-    handleAddQuestion = () => {
+    componentDidMount() {
         const { deck } = this.props;
-        this.props.navigation.navigate(
-            "AddQuestion",
-            { key: deck.key }
-        );
-    }
 
-    handleStartQuiz = () => {
-        const { deck } = this.props;
-        this.props.navigation.navigate(
-            "Quiz",
-            { key: deck.key }
-        );
+        this.setState({
+            correct: [],
+            wrong: [],
+            current: deck.questions.shift(),
+            questions: deck.questions,
+            showAnswer: false
+        });
     }
 
     render() {
         const { deck } = this.props;
-        const countQuestions = deck.questions !== null ? deck.questions.length : 0;
+        // const countQuestions = deck.questions !== null ? deck.questions.length : 0;
+        return null;
+        // return (
 
-        return (
-            <View style={styles.container}>
+            {/* <View style={styles.container}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.titleText}>
                         {deck.title}
@@ -61,13 +58,13 @@ class DetailDeck extends Component {
                         <MaterialCommunityIcons name="plus" size={22} color={white} />
                         <Text style={styles.buttonText}> Add Question </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={this.handleStartQuiz}>
+                    <TouchableOpacity style={styles.button}>
                         <MaterialCommunityIcons name="trophy" size={22} color={white} />
                         <Text style={styles.buttonText}> Start Quiz </Text>
                     </TouchableOpacity>
                 </View>
-            </View>
-        );
+            </View> */}
+        // );
     }
 }
 
@@ -127,4 +124,4 @@ function mapStateToProps(state, { navigation }) {
     }
 }
 
-export default connect(mapStateToProps)(DetailDeck);
+export default connect(mapStateToProps)(Quiz);
