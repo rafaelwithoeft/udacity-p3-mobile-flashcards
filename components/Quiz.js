@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { HeaderBackButton } from 'react-navigation';
+import { AppLoading } from 'expo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { darkBlue, lightBlue, grey, white } from '../utils/colors';
+import { darkBlue, lightBlue, grey, white, green, red } from '../utils/colors';
 
 class Quiz extends Component {
+    state = {
+        questions: [],
+        currentIndex: 0,
+        totalQuestions: 0,
+        correct: 0,
+        wrong: 0,
+        showAnswer: false,
+        contentLoading: true
+    }
+
     static navigationOptions = ({ navigation }) => {
         return {
             title: "Quiz",
@@ -30,41 +42,125 @@ class Quiz extends Component {
         const { deck } = this.props;
 
         this.setState({
-            correct: [],
-            wrong: [],
-            current: deck.questions.shift(),
             questions: deck.questions,
-            showAnswer: false
+            totalQuestions: deck.questions.length,
+            contentLoading: false
+        });
+    }
+
+    handleShowAnswer = () => {
+        this.setState({
+            showAnswer: true
+        }) ;
+    }
+
+    handleCorrectAnswer = () => {
+        this.setState((prevState) => {
+            return {
+                correct: prevState.correct + 1,
+                currentIndex: prevState.currentIndex + 1
+            }
+        });
+    }
+
+    handleWrongAnswer = () => {
+        this.setState((prevState) => {
+            return {
+                wrong: prevState.wrong + 1,
+                currentIndex: prevState.currentIndex + 1
+            }
+        });
+    }
+
+    handleRestart = () => {
+        this.setState((prevState) => {
+            return {
+                correct: 0,
+                currentIndex: 0,
+                wrong: 0,
+                showAnswer: false
+            }
         });
     }
 
     render() {
-        const { deck } = this.props;
-        // const countQuestions = deck.questions !== null ? deck.questions.length : 0;
-        return null;
-        // return (
+        const { 
+            currentIndex,
+            questions, 
+            totalQuestions, 
+            showAnswer, 
+            contentLoading, 
+            correct, 
+            wrong 
+        } = this.state;
 
-            {/* <View style={styles.container}>
+        if (contentLoading) {
+            return <AppLoading onError={console.warn} />;
+        }
+
+        if (totalQuestions === 0) {
+            return (
+                <View style={styles.container}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.titleText}>
+                            This deck has no questions.
+                        </Text>
+                    </View>
+                </View>
+            );
+        }
+
+        if (currentIndex < totalQuestions) {
+            return (
+                <View style={styles.container}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.titleText}>
+                            {!showAnswer && questions[currentIndex].question}
+                            {showAnswer && questions[currentIndex].answer}
+                        </Text>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        {
+                            !showAnswer && 
+                            <TouchableOpacity style={styles.button} onPress={this.handleShowAnswer}>
+                                <MaterialCommunityIcons name="forward" size={22} color={white} />
+                                <Text style={styles.buttonText}> Show answer </Text>
+                            </TouchableOpacity>
+                        }
+                        {
+                            showAnswer &&
+                            <TouchableOpacity style={[styles.button, styles.buttonCorrect]} onPress={this.handleCorrectAnswer}>
+                                <MaterialCommunityIcons name="check-circle-outline" size={22} color={white} />
+                                <Text style={styles.buttonText}> Correct </Text>
+                            </TouchableOpacity>
+                        }
+                        {
+                            showAnswer &&
+                            <TouchableOpacity style={[styles.button, styles.buttonWrong]} onPress={this.handleWrongAnswer}>
+                                <MaterialCommunityIcons name="close-circle-outline" size={22} color={white} />
+                                <Text style={styles.buttonText}> Wrong </Text>
+                            </TouchableOpacity>
+                        }
+                    </View>
+                </View>
+            );
+        }
+
+        return (
+            <View style={styles.container}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.titleText}>
-                        {deck.title}
+                        You correctly answered {correct} of {totalQuestions} questions.
                     </Text>
                 </View>
-                <View style={styles.questionContainer}>
-                    <Text style={styles.questionText}>{countQuestions} Question(s)</Text>
-                </View>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={this.handleAddQuestion}>
-                        <MaterialCommunityIcons name="plus" size={22} color={white} />
-                        <Text style={styles.buttonText}> Add Question </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
-                        <MaterialCommunityIcons name="trophy" size={22} color={white} />
-                        <Text style={styles.buttonText}> Start Quiz </Text>
+                    <TouchableOpacity style={styles.button} onPress={this.handleRestart}>
+                        <MaterialCommunityIcons name="forward" size={22} color={white} />
+                        <Text style={styles.buttonText}> Restart Quiz </Text>
                     </TouchableOpacity>
                 </View>
-            </View> */}
-        // );
+            </View>
+        );
     }
 }
 
@@ -99,6 +195,12 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
     },
+    buttonCorrect: {
+        backgroundColor: green
+    },
+    buttonWrong: {
+        backgroundColor: red
+    },
     buttonText: {
         alignSelf: "center",
         fontSize: 14,
@@ -119,6 +221,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, { navigation }) {
     const { key } = navigation.state.params;
+    
     return {
         deck: state[key]
     }
