@@ -14,6 +14,7 @@ import Quiz from './components/Quiz';
 
 import reducer from './reducers';
 import { darkBlue, white } from './utils/colors';
+import { setLocalNotification } from './utils/helpers';
 
 function FlashCardStatusBar ({ backgroundColor, ...props }) {
   	return (
@@ -82,7 +83,7 @@ const MainNavigator = StackNavigator(
 
 export default class App extends React.Component {
 	componentDidMount() {
-		//SET NOTIFICATION
+		setLocalNotification();
 	}
 
 	render() {
