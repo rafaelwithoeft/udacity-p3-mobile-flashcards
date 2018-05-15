@@ -1,4 +1,7 @@
-import NOTIFICATION_KEY from './constants';
+import { AsyncStorage } from 'react-native';
+import { Notifications, Permissions } from 'expo';
+
+import { NOTIFICATION_KEY } from './constants';
 
 export function generateRandomKey() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -12,7 +15,7 @@ export function clearLocalNotification() {
 function createNotification() {
     return {
         title: 'Practice your quizzes!',
-        body: "0x1F44B don't forget to practice your quizzes today!",
+        body: "Hey! don't forget to practice your quizzes today!",
         ios: {
             sound: true
         },
