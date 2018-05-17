@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { newQuestion } from '../utils/storage';
 import { addQuestion } from '../actions';
 
-import { grey, white, darkBlue, lightBlue } from '../utils/colors';
+import { grey, white, darkBlue, lightBlue, red } from '../utils/colors';
 
 class AddQuestion extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -31,33 +31,44 @@ class AddQuestion extends Component {
 
     state = {
         question: null,
-        answer: null
+        answer: null,
+        error: null,
     }
 
     handleAddQuestion = () => {
         const { deck } = this.props;
-        const question = {
-            question: this.state.question,
-            answer: this.state.answer
-        };
+        const { question, answer, error } = this.state;
+
+        if (question === null || question.trim().length === 0) {
+            this.setState({ error: "Question can't be empty." });
+            return;
+        }
+
+        if (answer === null || answer.trim().length === 0) {
+            this.setState({ error: "Answer can't be empty." });
+            return;
+        }
+
+        const questionObject = { question, answer };
 
         //Redux
         this.props.dispatch(
             addQuestion({
                 key: deck.key,
-                question
+                question: questionObject
             })
         );
 
         //Local state
         this.props.navigation.goBack();
-        this.setState({ question: null, answer: null });
+        this.setState({ question: null, answer: null, error: null });
         
         //AsyncStorage
-        newQuestion({ key: deck.key, question });
+        newQuestion({ key: deck.key, questionObject });
     }
 
     render() {
+        const { error } = this.state;
         return (
             <View style={styles.container}>
                 <View style={styles.inputContainer}>
@@ -74,13 +85,17 @@ class AddQuestion extends Component {
                     <TextInput
                         underlineColorAndroid="transparent"
                         placeholder="Answer"
-                        autoFocus={true}
                         autoCapitalize="words"
                         maxLength={40}
                         style={styles.inputText}
                         onChangeText={(text) => this.setState({ answer: text })}
                         value={this.state.answer}
                     />
+                </View>
+                <View style={styles.errorContainer}>
+                    <Text style={styles.errorText}>
+                        {error}
+                    </Text>
                 </View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={this.handleAddQuestion}>
@@ -97,7 +112,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
+        justifyContent: "space-between",
         margin: 3
+    },
+    errorContainer: {
+        flex: 1,
+        justifyContent: "flex-end"
+    },
+    errorText: {
+        fontSize: 20,
+        textAlign: "center",
+        fontWeight: "bold",
+        color: red
     },
     inputContainer: {
         flex: 1,

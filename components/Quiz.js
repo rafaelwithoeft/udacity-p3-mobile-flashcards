@@ -5,6 +5,8 @@ import { HeaderBackButton } from 'react-navigation';
 import { AppLoading } from 'expo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import ResultQuiz from './ResultQuiz';
+
 import { darkBlue, lightBlue, grey, white, green, red } from '../utils/colors';
 
 class Quiz extends Component {
@@ -58,7 +60,8 @@ class Quiz extends Component {
         this.setState((prevState) => {
             return {
                 correct: prevState.correct + 1,
-                currentIndex: prevState.currentIndex + 1
+                currentIndex: prevState.currentIndex + 1,
+                showAnswer: false
             }
         });
     }
@@ -67,20 +70,26 @@ class Quiz extends Component {
         this.setState((prevState) => {
             return {
                 wrong: prevState.wrong + 1,
-                currentIndex: prevState.currentIndex + 1
+                currentIndex: prevState.currentIndex + 1,
+                showAnswer: false
             }
         });
     }
 
     handleRestart = () => {
-        this.setState((prevState) => {
-            return {
-                correct: 0,
-                currentIndex: 0,
-                wrong: 0,
-                showAnswer: false
-            }
-        });
+        const { deck } = this.props;
+        this.props.navigation.navigate(
+            'Quiz',
+            { key: deck.key }
+        );
+    }
+
+    handleBack = () => {
+        const { deck } = this.props;
+        this.props.navigation.navigate(
+            'DetailDeck',
+            { key: deck.key }
+        );
     }
 
     render() {
@@ -119,6 +128,11 @@ class Quiz extends Component {
                             {showAnswer && questions[currentIndex].answer}
                         </Text>
                     </View>
+                    <View style={styles.answeredContainer}>
+                        <Text style={styles.answeredText}>
+                            You answered {currentIndex} of {totalQuestions} questions.
+                        </Text>
+                    </View>
                     <View style={styles.buttonContainer}>
                         {
                             !showAnswer && 
@@ -147,19 +161,12 @@ class Quiz extends Component {
         }
 
         return (
-            <View style={styles.container}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.titleText}>
-                        You correctly answered {correct} of {totalQuestions} questions.
-                    </Text>
-                </View>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={this.handleRestart}>
-                        <MaterialCommunityIcons name="forward" size={22} color={white} />
-                        <Text style={styles.buttonText}> Restart Quiz </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            <ResultQuiz 
+                correct={correct}
+                totalQuestions={totalQuestions}
+                handleRestart={this.handleRestart}
+                handleBack={this.handleBack}
+            />
         );
     }
 }
@@ -179,6 +186,17 @@ const styles = StyleSheet.create({
         fontSize: 35,
         textAlign: "center",
         fontWeight: "bold",
+        color: darkBlue
+    },
+    answeredContainer: {
+        flex: 1,
+        justifyContent: "flex-end"
+    },
+    answeredText: {
+        fontSize: 16,
+        textAlign: "center",
+        fontWeight: "bold",
+        justifyContent: "flex-end",
         color: darkBlue
     },
     buttonContainer: {

@@ -7,22 +7,30 @@ import { newDeck } from '../utils/storage';
 import { addDeck } from '../actions';
 
 import { generateRandomKey } from '../utils/helpers';
-import { grey, white, darkBlue } from '../utils/colors';
+import { grey, white, darkBlue, red } from '../utils/colors';
 
 class AddDeck extends Component {
     state = {
-        title: null
+        title: null,
+        error: null
     }
 
-    toHome = () => {
-        this.props.navigation.navigate("ListDeck");
+    toHome = key => {
+        this.props.navigation.navigate("DetailDeck", { key });
     }
 
     handleAddDeck = () => {
+        const { title } = this.state;
+
+        if (title === null || title.trim().length === 0) {
+            this.setState({ error: "Name can't be empty." });
+            return;
+        }
+
         const key = generateRandomKey();
         const deck = {
-            key: key,
-            title: this.state.title,
+            key,
+            title,
             questions: []
         };
 
@@ -32,14 +40,15 @@ class AddDeck extends Component {
         }));
 
         //Local state
-        this.setState({ title: null });
-        this.toHome();
+        this.setState({ title: null, error: null });
+        this.toHome(key);
 
         //AsyncStorage
         newDeck({ key, deck });
     }
 
     render() {
+        const { error } = this.state;
         return (
             <View style={styles.container}>
                 <View style={styles.inputContainer}>
@@ -53,6 +62,11 @@ class AddDeck extends Component {
                         onChangeText={(text) => this.setState({ title: text })}
                         value={this.state.title}
                     />
+                </View>
+                <View style={styles.errorContainer}>
+                    <Text style={styles.errorText}>
+                        {error}
+                    </Text>
                 </View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={this.handleAddDeck}>
@@ -69,11 +83,22 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
+        justifyContent: "space-between",
         margin: 3
     },
     inputContainer: {
         flex: 1,
         justifyContent: "center"
+    },
+    errorContainer: {
+        flex: 1,
+        justifyContent: "flex-end"
+    },
+    errorText: {
+        fontSize: 20,
+        textAlign: "center",
+        fontWeight: "bold",
+        color: red
     },
     inputText: {
         fontSize: 35,
