@@ -30,7 +30,7 @@ To get started developing right away:
 |   ├── constants.js # Constants / keys.
 |   ├── helpers.js # Some helpers.
 |   └── storage.js # Storage functions.
-├── App.js # <App /> component. Start rendering bookshelf.
+├── App.js # <App /> component.
 └── App.test.js # Tests for <App /> component.
 ```
 
