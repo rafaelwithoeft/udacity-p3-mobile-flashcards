@@ -77,14 +77,6 @@ class Quiz extends Component {
     }
 
     handleRestart = () => {
-        const { deck } = this.props;
-        this.props.navigation.navigate(
-            'Quiz',
-            { key: deck.key }
-        );
-    }
-
-    handleBack = () => {
         this.setState((prevState) => {
             return {
                 correct: 0,
@@ -93,6 +85,10 @@ class Quiz extends Component {
                 showAnswer: false
             }
          });
+    }
+
+    handleBack = () => {
+        this.props.navigation.goBack();
     }
 
     render() {
