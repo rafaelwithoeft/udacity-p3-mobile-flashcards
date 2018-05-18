@@ -5,13 +5,13 @@ import { HeaderBackButton } from 'react-navigation';
 import { AppLoading } from 'expo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { setLocalNotification } from '../utils/helpers';
+import { setLocalNotification, clearLocalNotification } from '../utils/helpers';
 
 import { darkBlue, lightBlue, grey, white, green, red } from '../utils/colors';
 
 export default class ResultQuiz extends Component {
     componentDidMount() {
-        setLocalNotification();
+        clearLocalNotification().then(setLocalNotification());
     }
 
     render() {
