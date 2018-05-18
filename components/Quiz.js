@@ -85,11 +85,14 @@ class Quiz extends Component {
     }
 
     handleBack = () => {
-        const { deck } = this.props;
-        this.props.navigation.navigate(
-            'DetailDeck',
-            { key: deck.key }
-        );
+        this.setState((prevState) => {
+            return {
+                correct: 0,
+                currentIndex: 0,
+                wrong: 0,
+                showAnswer: false
+            }
+         });
     }
 
     render() {
