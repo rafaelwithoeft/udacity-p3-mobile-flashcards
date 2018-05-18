@@ -2,9 +2,9 @@
 
 FlashCards is a project from React Developer Nanodegree.
 
-Tested on Android device.
-
 ## TL;DR
+
+Tested on Android device.
 
 To get started developing right away:
 

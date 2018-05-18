@@ -9,7 +9,7 @@ export function generateRandomKey() {
 
 export function clearLocalNotification() {
     return AsyncStorage.removeItem(NOTIFICATION_KEY)
-        .then(Notification.cancelAllScheduledNotificationAsync);
+        .then(Notifications.cancelAllScheduledNotificationAsync);
 }
 
 function createNotification() {
